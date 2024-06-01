@@ -5,6 +5,7 @@ import com.vivekanandpv.springsecurityimplementationdemo.viewmodels.LoginViewMod
 import com.vivekanandpv.springsecurityimplementationdemo.viewmodels.TokenResponse;
 import com.vivekanandpv.springsecurityimplementationdemo.viewmodels.UserListViewModel;
 import com.vivekanandpv.springsecurityimplementationdemo.viewmodels.UserRegisterViewModel;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +23,14 @@ public class AuthApi {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody LoginViewModel viewModel) {
+    public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginViewModel viewModel) {
         return ResponseEntity.ok(authService.getToken(viewModel));
     }
 
 
     @PostMapping(value = "/register")
 //    @PreAuthorize("hasAuthority('admin')")
-    public ResponseEntity<?> register(@RequestBody UserRegisterViewModel viewModel) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterViewModel viewModel) {
         authService.register(viewModel);
         return ResponseEntity.noContent().build();
     }

@@ -45,7 +45,7 @@ public class AppJwtUtils {
 
     private Jws<Claims> extractAllClaims(String token) {
         return Jwts.parser()
-                .decryptWith(Keys.hmacShaKeyFor(this.getSigningKey()))
+                .verifyWith(Keys.hmacShaKeyFor(this.getSigningKey()))
                 .build()
                 .parseSignedClaims(token);
     }

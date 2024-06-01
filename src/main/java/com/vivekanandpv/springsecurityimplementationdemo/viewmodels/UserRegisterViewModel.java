@@ -14,7 +14,7 @@ public class UserRegisterViewModel {
     private String username;
 
     @NotBlank
-    @Size(min = 5, max = 50)
+    @Size(min = 3, max = 50)
     private String firstName;
 
     @Size(max = 50)
@@ -27,19 +27,19 @@ public class UserRegisterViewModel {
     @NotNull
     private List<String> roles;
 
-    public @NotBlank @Size(min = 5, max = 50) String getUsername() {
+    public @NotBlank @Email @Size(min = 5, max = 200) String getUsername() {
         return username;
     }
 
-    public void setUsername(@NotBlank @Size(min = 5, max = 50) String username) {
+    public void setUsername(@NotBlank @Email @Size(min = 5, max = 200) String username) {
         this.username = username;
     }
 
-    public @NotBlank @Size(min = 5, max = 50) String getFirstName() {
+    public @NotBlank @Size(min = 3, max = 50) String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(@NotBlank @Size(min = 5, max = 50) String firstName) {
+    public void setFirstName(@NotBlank @Size(min = 3, max = 50) String firstName) {
         this.firstName = firstName;
     }
 

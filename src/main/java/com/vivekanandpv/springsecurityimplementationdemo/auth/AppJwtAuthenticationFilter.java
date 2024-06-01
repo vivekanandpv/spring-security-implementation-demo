@@ -43,6 +43,7 @@ public class AppJwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        System.out.println(request.getServletPath());
         return request.getServletPath().equals("/api/v1/auth/login")
                 || request.getServletPath().equals("/api/v1/auth/register");
     }

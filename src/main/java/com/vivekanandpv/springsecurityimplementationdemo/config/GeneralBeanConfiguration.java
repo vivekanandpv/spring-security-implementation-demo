@@ -15,7 +15,7 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Configuration
-@EnableWebSecurity
+
 public class GeneralBeanConfiguration {
     @Bean
     public CorsFilter corsFilter() {
