@@ -29,7 +29,7 @@ public class AuthApi {
 
 
     @PostMapping(value = "/register")
-//    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterViewModel viewModel) {
         authService.register(viewModel);
         return ResponseEntity.noContent().build();
