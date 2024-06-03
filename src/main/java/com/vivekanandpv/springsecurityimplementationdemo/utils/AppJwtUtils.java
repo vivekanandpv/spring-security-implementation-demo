@@ -73,11 +73,7 @@ public class AppJwtUtils {
                 .compact();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) throws io.jsonwebtoken.ExpiredJwtException, io.jsonwebtoken.UnsupportedJwtException, io.jsonwebtoken.MalformedJwtException, io.jsonwebtoken.security.SignatureException, IllegalArgumentException {
-        final String username = extractUsername(token);
-        return (
-                username.equals(userDetails.getUsername())
-                        && userDetails.isEnabled()
-                        && !isTokenExpired(token));
+    public boolean validateToken(String token) throws io.jsonwebtoken.ExpiredJwtException, io.jsonwebtoken.UnsupportedJwtException, io.jsonwebtoken.MalformedJwtException, io.jsonwebtoken.security.SignatureException, IllegalArgumentException {
+        return !isTokenExpired(token);
     }
 }

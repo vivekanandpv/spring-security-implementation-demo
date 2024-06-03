@@ -9,9 +9,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Component
 public class AppJwtAuthenticationProvider implements AuthenticationProvider {
@@ -25,17 +28,21 @@ public class AppJwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-        String token = String.valueOf(authentication.getCredentials());
-
         try {
-            String username = jwtUtils.extractUsername(token);
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            String token = String.valueOf(authentication.getCredentials());
 
-            if (jwtUtils.validateToken(token, userDetails)) {
-                return new AppJwtAuthentication(username, userDetails.getAuthorities());
+            if (jwtUtils.validateToken(token)) {
+                return new AppJwtAuthentication(
+                        jwtUtils.extractUsername(token),
+                        jwtUtils.extractClaim(token, c -> {
+                            return ((ArrayList<String>) c.getPayload().get("roles"))
+                                    .stream()
+                                    .map(SimpleGrantedAuthority::new)
+                                    .collect(Collectors.toList());
+                        }));
             }
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException exception) {
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException |
+                 IllegalArgumentException exception) {
             throw new BadCredentialsException("Token invalid");
         }
 

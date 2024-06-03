@@ -23,10 +23,10 @@ public class AppJwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        String authorizationHeaderValue = httpServletRequest.getHeader("Authorization");
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String jwt = authorizationHeader.substring(7);
+        if (authorizationHeaderValue != null && authorizationHeaderValue.startsWith("Bearer ")) {
+            String jwt = authorizationHeaderValue.substring(7);
 
             try {
                 Authentication authentication = new AppJwtAuthentication(jwt);
@@ -43,7 +43,6 @@ public class AppJwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals("/api/v1/auth/login")
-                || request.getServletPath().equals("/api/v1/auth/register");
+        return request.getServletPath().equals("/api/v1/auth/login");
     }
 }
